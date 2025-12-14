@@ -1,16 +1,71 @@
-# act1
+# The Food Runner (Food Delivery Platform)
 
-A new Flutter project.
+## Team
+- Luna Da Silva (GitHub: lunadasil)
 
-## Getting Started
+## Demo Video
+- Link: (paste your YouTube/Drive link here)
 
-This project is a starting point for a Flutter application.
+## Project Summary
+The Food Runner is a multi-role food delivery platform with three user experiences:
+- **Customer**: browse restaurants, view menus, place orders, track order status in real time
+- **Restaurant**: manage incoming orders and update order status (new → preparing → ready)
+- **Driver**: view ready orders, accept deliveries, mark orders delivered
 
-A few resources to get you started if this is your first Flutter project:
+The app uses **Firebase Authentication** for login and **Cloud Firestore** for real-time data synchronization.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features Implemented
+### Authentication (Multi-Role)
+- Email/password login and registration
+- Role stored in Firestore `/users/{uid}`
+- Role-based routing to customer/restaurant/driver dashboards
+
+### Customer
+- Restaurant list from Firestore
+- Menu browsing (menuItems subcollection)
+- Add items to cart + place order
+- Order tracking screen with real-time status updates
+
+### Restaurant
+- View orders for a restaurant
+- Update order status: **preparing**, **ready**
+- Real-time updates visible to customer immediately
+
+### Driver
+- View available orders (status = ready)
+- Accept order (assign driverId + set picked_up)
+- Mark delivered (status = delivered)
+
+---
+
+## Technology Stack
+- **Flutter/Dart** (UI + app logic)
+- **Firebase Authentication** (user sign-in)
+- **Cloud Firestore** (database + real-time listeners)
+- **go_router** (navigation/routing)
+
+---
+
+## Database Structure (Firestore)
+- `users/{uid}`
+  - `email`, `role`, `createdAt`
+- `restaurants/{restaurantId}`
+  - `name`, `category`, `etaMins`
+- `restaurants/{restaurantId}/menuItems/{itemId}`
+  - `name`, `description`, `price`, `isAvailable`, `createdAt`
+- `orders/{orderId}`
+  - `customerId`, `restaurantId`, `driverId?`, `status`, `items[]`, `total`, `createdAt`
+
+---
+
+## How to Run
+### Prereqs
+- Flutter installed
+- Firebase project configured
+- Firestore + Authentication enabled
+
+### Install dependencies
+```bash
+flutter pub get
