@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694864445298",
+    "project_id": "food-runner-project-mad",
+    "storage_bucket": "food-runner-project-mad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694864445298:android:9d2b40038454223a40a7eb",
+        "android_client_info": {
+          "package_name": "com.example.act1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj_6fQsFQV6Rb-zhs0DtR66oWP-GlaB_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
