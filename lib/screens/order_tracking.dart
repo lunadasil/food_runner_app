@@ -1,33 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../data.dart';
 
-class OrderTrackingPage extends StatelessWidget {
+class OrderTrackingScreen extends StatelessWidget {
   final String orderId;
-
-  const OrderTrackingPage({super.key, required this.orderId});
+  const OrderTrackingScreen({super.key, required this.orderId});
 
   @override
   Widget build(BuildContext context) {
-    final ref = FirebaseFirestore.instance.collection('orders').doc(orderId);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Track Order')),
-      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: ref.snapshots(),
+      body: StreamBuilder(
+        stream: DB.orderStream(orderId),
         builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snap.hasError) {
-            return Center(child: Text('Error: ${snap.error}'));
-          }
-
-          final data = snap.data?.data();
-          if (data == null) {
-            return const Center(child: Text('Order not found.'));
-          }
-
-          final status = (data['status'] ?? 'new') as String;
+          if (!snap.hasData) return const Center(child: CircularProgressIndicator());
+          final data = snap.data!.data();
+          if (data == null) return const Center(child: Text('Order not found'));
+          final status = data['status'] ?? 'new';
           final total = (data['total'] ?? 0) as num;
           final items = (data['items'] as List?) ?? [];
 
@@ -38,16 +26,13 @@ class OrderTrackingPage extends StatelessWidget {
               children: [
                 Text('Order ID: $orderId'),
                 const SizedBox(height: 8),
-                Text(
-                  'Status: $status',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
+                Text('Status: $status', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 16),
                 const Text('Items:', style: TextStyle(fontWeight: FontWeight.bold)),
                 Expanded(
                   child: ListView.builder(
                     itemCount: items.length,
-                    itemBuilder: (context, i) {
+                    itemBuilder: (_, i) {
                       final it = items[i] as Map;
                       return ListTile(
                         title: Text('${it['name']}'),
