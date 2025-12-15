@@ -67,7 +67,6 @@ The app uses **Firebase Authentication** for login and **Cloud Firestore** for r
 - Firestore + Authentication enabled
 
 ### Install dependencies
-```bash
 flutter pub get
 
 ## AI Usage Log
